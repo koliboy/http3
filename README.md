@@ -46,38 +46,9 @@ Here is a comprehensive description of the `http3` object:
 Please note that the provided code uses XMLHttpRequest, which is an older way of making HTTP requests in JavaScript. For modern web development, it is recommended to use Fetch API or Axios, which provide more powerful and convenient features for handling HTTP requests and responses.
 
 
-var http3 = { /* ... The previously defined http3 object ... */ };
-
-// Function to handle file upload
-function uploadFile() {
-  var fileInput = document.getElementById('fileInput');
-  var file = fileInput.files[0];
-
-  if (!file) {
-    console.log('Please select a file.');
-    return;
-  }
-
-  var formData = new FormData();
-  formData.append('file', file);
-
-  // Define the request using http3.post
-  var req = http3.post('https://example.com/api/upload', {
-    body: formData,
-    headers: {
-      // You might need to set appropriate headers based on your server's requirements.
-      // For example, if you're uploading an image, you can set:
-      // 'Content-Type': 'image/jpeg' for JPEG images or 'Content-Type': 'image/png' for PNG images.
-      // Make sure to adjust the Content-Type according to the type of file you are uploading.
-    },
-  });
-
-  Certainly! Below is an example of how you can use the `http3` object to download a file and monitor the download progress.
-
-Assuming you have the `http3` object defined as shown in the previous code:
 
 ```javascript
-var http3 = { /* ... The previously defined http3 object ... */ };
+
 
 // Function to trigger file download
 function downloadFile() {
