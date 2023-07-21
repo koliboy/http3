@@ -4,7 +4,7 @@ HTTP3 is a custom JavaScript object that facilitates making HTTP requests using 
 Here is a comprehensive description of the `http3` object:
 
 
-
+# GET
 2. `http3.get(request, data, options)`: A shortcut method for making GET requests using `http3.worker__`.
 
    Parameters:
@@ -22,6 +22,62 @@ Here is a comprehensive description of the `http3` object:
      console.log('Error occurred during the GET request.');
    });
    ```
+
+Sure! Below is an example of how you can use the `http3.get()` method with various options to customize your GET request.
+
+Assuming you have the `http3` object defined as provided in the previous code, here's how you can use the `http3.get()` method with different options:
+
+```javascript
+// Example usage of http3.get() with options
+var apiUrl = 'https://api.example.com/data';
+
+// Example of query parameters to be sent in the GET request
+var queryParams = {
+  category: 'electronics',
+  sortBy: 'price',
+  limit: 10,
+};
+
+// Define the options for the GET request
+var options = {
+  headers: {
+    'Authorization': 'Bearer your_access_token', // Replace with your actual access token
+    'User-Agent': 'Custom User Agent', // You can set a custom User-Agent header
+  },
+  responseType: 'json', // Parse the response as JSON
+  status: 200, // Define the expected status code for successful responses
+};
+
+// Make the GET request using http3.get() with options
+var request = http3.get(apiUrl, queryParams, options);
+
+// Handling the response once the request is completed
+request.done(function(responseData) {
+  // `responseData` will contain the parsed JSON data from the response
+  console.log('Response data:', responseData);
+}).error(function() {
+  console.log('Error occurred during the request.');
+});
+
+// Progress tracking (if needed)
+request.downloadProgress(function(progress) {
+  console.log('Download progress: ' + progress + '%');
+});
+```
+
+In this example, we demonstrate how to use the `http3.get()` method with different options:
+
+1. `queryParams`: We define an object `queryParams` to represent the query parameters to be sent along with the GET request. This object will be transformed into the URL's query string.
+
+2. `options`: We define an object `options` to customize the request. The `options` object includes the following properties:
+   - `headers`: An object containing custom headers to be sent with the request, such as an access token or a custom User-Agent.
+   - `responseType`: Specifies the expected response type. In this case, we set it to `'json'`, indicating that we expect a JSON response that will be automatically parsed into an object.
+   - `status`: Defines the expected status code for a successful response. In this example, we set it to `200`.
+
+The `http3.get()` method is then used to make the GET request to the `apiUrl`, including the query parameters and options defined earlier. The response will be automatically parsed as JSON, and the `done()` callback will handle the parsed data. The `error()` callback will handle any errors that may occur during the request.
+
+Please ensure that the actual API URL (`'https://api.example.com/data'` in this example) and the query parameters match your API's requirements. Additionally, customize the headers according to your specific use case and replace the `Authorization` header value with your actual access token.
+   # POST
 
 3. `http3.post(request, options)`: A shortcut method for making POST requests using `http3.worker__`.
 
