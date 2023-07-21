@@ -137,3 +137,60 @@ Keep in mind that, as with the previous examples, the actual API URL and configu
 // Example usage: Call the uploadFile function when a button is clicked.
 var uploadButton = document.getElementById('uploadButton');
 uploadButton.addEventListener('click', uploadFile);
+
+
+# uploads-exmaple
+Sure! I'll provide an example of how you can use the `http3` object to upload a file using FormData and monitor the progress during the upload.
+
+Assuming you have the `http3` object defined as shown in the previous code:
+
+```javascript
+var http3 = { /* ... The previously defined http3 object ... */ };
+
+// Function to handle file upload
+function uploadFile() {
+  var fileInput = document.getElementById('fileInput');
+  var file = fileInput.files[0];
+
+  if (!file) {
+    console.log('Please select a file.');
+    return;
+  }
+
+  var formData = new FormData();
+  formData.append('file', file);
+
+  // Define the request using http3.post
+  var req = http3.post('https://example.com/api/upload', {
+    body: formData,
+    headers: {
+      // You might need to set appropriate headers based on your server's requirements.
+      // For example, if you're uploading an image, you can set:
+      // 'Content-Type': 'image/jpeg' for JPEG images or 'Content-Type': 'image/png' for PNG images.
+      // Make sure to adjust the Content-Type according to the type of file you are uploading.
+    },
+  });
+
+  // Progress callback to track the upload progress
+  req.uploadProgress(function(progress) {
+    console.log('Upload progress: ' + progress + '%');
+  });
+
+  // Handle the completion of the request
+  req.done(function(response) {
+    console.log('File uploaded successfully:', response);
+  }).error(function() {
+    console.log('Error occurred during the file upload.');
+  });
+}
+
+// Example usage: Call the uploadFile function when a button is clicked.
+var uploadButton = document.getElementById('uploadButton');
+uploadButton.addEventListener('click', uploadFile);
+```
+
+In this example, we assume you have an HTML form with an input element of type "file" with the id "fileInput" and a button with the id "uploadButton." When the user selects a file using the file input and clicks the "uploadButton," the `uploadFile` function is called.
+
+The `uploadFile` function reads the selected file, creates a FormData object, and then makes a POST request using `http3.post`. The upload progress is tracked using the `req.uploadProgress` callback, and the completion of the request is handled using the `req.done` and `req.error` callbacks.
+
+Please note that the actual API URL and required headers may vary depending on your server's configuration. Make sure to adjust them accordingly. Additionally, handling file uploads and progress tracking on the server-side may require additional configuration and code on the server.
