@@ -1,4 +1,6 @@
-/*MIT License
+/*
+https://github.com/koliboy/http3
+MIT License
 
 Copyright (c) 2023 koli
 
