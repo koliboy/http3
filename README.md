@@ -3,70 +3,7 @@ HTTP3 is a custom JavaScript object that facilitates making HTTP requests using 
 
 Here is a comprehensive description of the `http3` object:
 
-**1. Core Method: `worker__(type, request, data, options)`**
-   - This method is the foundation of HTTP3 and is responsible for making HTTP requests.
-   - Parameters:
-     - `type` (string): The HTTP method type, either 'GET' or 'POST'.
-     - `request` (string): The URL for the HTTP request.
-     - `data` (object): The data to be sent in the request (used in POST requests).
-     - `options` (object): Additional options for the request, like headers, response type, etc.
-   - Returns: An object (`data_return`) that allows chaining various callbacks to handle request completion, errors, and progress tracking.
 
-**2. Shortcut Methods: `get(request, data, options)` and `post(request, options)`**
-   - These are convenience methods that use `worker__` under the hood to perform GET and POST requests, respectively.
-   - `get()` is used for GET requests, and `post()` is used for POST requests.
-   - They provide a simpler way to initiate common HTTP methods without directly calling `worker__`.
-
-**3. Progress Tracking: `uploadProgress(func)` and `downloadProgress(func)`**
-   - These methods enable tracking the progress of uploads and downloads, respectively.
-   - The `uploadProgress` method is used to track the progress of file uploads.
-   - The `downloadProgress` method is used to track the progress of file downloads.
-   - Progress is represented as a percentage (0-100), and the provided callback function is called with the current progress value.
-
-**4. Response Handling: `done(func)` and `error(func)`**
-   - These methods allow handling the response once the request is completed.
-   - The `done` method is used when the request is successful (status code matches options.status).
-   - The `error` method is used when the request encounters an error (status code differs from options.status).
-   - The provided callback functions are called with the response data or error handling logic.
-
-**5. Additional Functionality**
-   - `timeOut(time, func)`: Sets a timeout for the request and calls the provided function if the request exceeds the specified time.
-   - `abort(func)`: Aborts the request and calls the provided function when the request is aborted.
-
-**6. Usage**
-   - Developers can use the `http3` object to initiate HTTP requests and handle responses in a more streamlined manner.
-   - It supports both simple requests with predefined methods (`get` and `post`) and complex requests with custom options (`worker__`).
-   - The object simplifies handling asynchronous behavior and provides built-in progress tracking during uploads and downloads.
-   - Developers can chain multiple callbacks to handle different aspects of the request and response flow.
-
-Please note that while the `http3` object provides a basic way to make HTTP requests, modern web development often utilizes more sophisticated libraries like Axios or Fetch API due to their broader feature sets, better support for modern browser standards, and improved error handling capabilities.
-
-
-The provided code defines an HTTP3 object with methods for making HTTP requests using XMLHttpRequest. The object has three main methods: `worker__`, `get`, and `post`. The `get` and `post` methods are simply shortcuts to the `worker__` method, with the appropriate HTTP method (GET or POST) predefined.
-
-Below is a description of the methods available in the HTTP3 object:
-
-1. `http3.worker__(type, request, data, options)`: This method is the core function responsible for making HTTP requests. It supports both GET and POST methods and includes various options to configure the request. The method returns an object (`data_return`) that allows chaining different callbacks.
-
-   Parameters:
-   - `type` (string): The HTTP method type, either 'GET' or 'POST'.
-   - `request` (string): The URL for the HTTP request.
-   - `data` (object): The data to be sent in the request (used in POST requests).
-   - `options` (object): Additional options for the request, such as headers, response type, etc.
-
-   Example usage:
-   ```javascript
-   var req = http3.worker__('GET', 'https://example.com/api/data', null, {
-     headers: { 'Authorization': 'Bearer your_access_token' },
-     responseType: 'json',
-   });
-
-   req.done(function(response) {
-     console.log('Request successful:', response);
-   }).error(function() {
-     console.log('Error occurred during the request.');
-   });
-   ```
 
 2. `http3.get(request, data, options)`: A shortcut method for making GET requests using `http3.worker__`.
 
