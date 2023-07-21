@@ -165,3 +165,39 @@ In this example, we assume you have an HTML form with an input element of type "
 The `uploadFile` function reads the selected file, creates a FormData object, and then makes a POST request using `http3.post`. The upload progress is tracked using the `req.uploadProgress` callback, and the completion of the request is handled using the `req.done` and `req.error` callbacks.
 
 Please note that the actual API URL and required headers may vary depending on your server's configuration. Make sure to adjust them accordingly. Additionally, handling file uploads and progress tracking on the server-side may require additional configuration and code on the server.
+
+# response-type 
+To use the `responseType: "json"` option with the `http3` object's `get()` method, you can do the following:
+
+Assuming you have the `http3` object defined as provided in the code, you can now use the `get()` method with the `responseType: "json"` option to make a GET request that expects a JSON response. Here's an example:
+
+```javascript
+// Example usage of http3.get() with responseType: "json"
+var apiUrl = 'https://api.example.com/data';
+
+var request = http3.get(apiUrl, null, {
+  responseType: 'json',
+});
+
+// Handling the response once the request is completed
+request.done(function(responseData) {
+  // `responseData` will be the parsed JSON data from the response
+  console.log('Response data:', responseData);
+
+  // You can access individual properties from the JSON data, for example:
+  console.log('Value of "property1":', responseData.property1);
+}).error(function() {
+  console.log('Error occurred during the request.');
+});
+
+// Progress tracking (if needed)
+request.downloadProgress(function(progress) {
+  console.log('Download progress: ' + progress + '%');
+});
+```
+
+In this example, the `http3.get()` method is used to make a GET request to the `apiUrl`, which should return a JSON response. By passing the `responseType: 'json'` option, the XMLHttpRequest object will automatically parse the response data as JSON. This means that the `responseData` parameter in the `done()` callback will already be an object containing the parsed JSON data.
+
+Please note that when using `responseType: 'json'`, the HTTP response's `Content-Type` header must indicate that the response is in JSON format. Otherwise, the parsing may fail, and the `done()` callback might not be triggered.
+
+Keep in mind that this example assumes that the server will respond with a valid JSON object. If the response is not valid JSON or if there are network issues, the `error()` callback will be triggered.
