@@ -145,7 +145,7 @@ Sure! I'll provide an example of how you can use the `http3` object to upload a 
 Assuming you have the `http3` object defined as shown in the previous code:
 
 ```javascript
-var http3 = { /* ... The previously defined http3 object ... */ };
+
 
 // Function to handle file upload
 function uploadFile() {
