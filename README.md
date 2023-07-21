@@ -201,3 +201,73 @@ In this example, the `http3.get()` method is used to make a GET request to the `
 Please note that when using `responseType: 'json'`, the HTTP response's `Content-Type` header must indicate that the response is in JSON format. Otherwise, the parsing may fail, and the `done()` callback might not be triggered.
 
 Keep in mind that this example assumes that the server will respond with a valid JSON object. If the response is not valid JSON or if there are network issues, the `error()` callback will be triggered.
+
+ # formdata
+ Sure! I'll provide an example of an HTML `<form>` and how you can use the `http3` object to submit the form data using FormData through a POST request.
+
+HTML Form:
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Data Example</title>
+</head>
+<body>
+    <h2>Submit Form Data</h2>
+    <form id="myForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" rows="4" required></textarea><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script src="http3.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+```
+
+JavaScript (app.js):
+```javascript
+// Assuming you have the `http3` object defined as provided in the previous code.
+
+document.getElementById('myForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the form from submitting the traditional way.
+
+    // Get the form data using FormData
+    var formData = new FormData(event.target);
+
+    // Define the request using http3.post
+    var req = http3.post('https://example.com/api/submit', {
+        body: formData,
+    });
+
+    // Handling the response once the request is completed
+    req.done(function(responseData) {
+        console.log('Response data:', responseData);
+    }).error(function() {
+        console.log('Error occurred during the request.');
+    });
+
+    // Progress tracking (if needed)
+    req.uploadProgress(function(progress) {
+        console.log('Upload progress: ' + progress + '%');
+    });
+});
+```
+
+In this example, we have an HTML `<form>` with three fields: Name, Email, and Message. The form's `submit` event is captured in the JavaScript file (app.js) using the `addEventListener` method. We prevent the default form submission behavior (page refresh) with `event.preventDefault()` to handle the form submission asynchronously.
+
+When the user clicks the "Submit" button, the form data is gathered using the FormData object, which automatically collects the form's field data. We then create a POST request using `http3.post()`, passing the FormData object as the request body.
+
+The `done()` callback handles the response once the request is completed successfully, and the `error()` callback handles any errors that may occur during the request.
+
+The `uploadProgress()` callback is used to track the progress of the file upload if the server expects a file upload or if you have specific processing needs during the upload.
+
+Please note that you need to replace `'https://example.com/api/submit'` with the actual API endpoint URL that will handle the form submission on your server. Also, ensure that your server handles the POST request correctly and returns an appropriate response. Additionally, adjust the Content-Type and other headers if necessary, based on your server's requirements.
