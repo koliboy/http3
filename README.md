@@ -327,3 +327,72 @@ The `done()` callback handles the response once the request is completed success
 The `uploadProgress()` callback is used to track the progress of the file upload if the server expects a file upload or if you have specific processing needs during the upload.
 
 Please note that you need to replace `'https://example.com/api/submit'` with the actual API endpoint URL that will handle the form submission on your server. Also, ensure that your server handles the POST request correctly and returns an appropriate response. Additionally, adjust the Content-Type and other headers if necessary, based on your server's requirements.
+
+# UPLOAD-rate
+The provided code does not directly show a way to measure the total amount of data sent per second. However, if you want to calculate the total data sent per second during an upload, you can utilize the upload progress information that's being tracked in the `uploadProgress` function. The progress value is a percentage indicating how much of the data has been uploaded.
+
+To calculate the total data sent per second, you can use the following steps:
+
+1. Keep track of the current progress value and the time elapsed.
+2. Calculate the difference in progress values over time to determine the change in the amount of uploaded data.
+3. Divide the change in data by the time difference to get the upload rate in percentage per second.
+
+Here's a modified version of the example code to help you achieve this:
+
+```javascript
+document.addEventListener('DOMContentLoaded', function () {
+    const uploadForm = document.getElementById('uploadForm');
+    const fileInput = document.getElementById('fileInput');
+    const uploadButton = document.getElementById('uploadButton');
+    let lastProgress = 0;
+    let lastTime = Date.now();
+
+    uploadButton.addEventListener('click', function () {
+        const file = fileInput.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Options for the POST request
+            const options = {
+                responseType: 'json', // You can customize this
+                headers: {
+                    // You can add additional headers here
+                }
+            };
+
+            const request = http3.post('/upload', options)
+                .done(function (response) {
+                    console.log('Upload successful:', response);
+                })
+                .error(function () {
+                    console.log('Upload failed');
+                });
+
+            request.uploadProgress(function (progress) {
+                const currentTime = Date.now();
+                const timeDifference = (currentTime - lastTime) / 1000; // Convert to seconds
+                const dataChange = (progress - lastProgress) / 100 * file.size; // Convert progress to data size
+                const uploadRate = dataChange / timeDifference;
+                
+                console.log('Upload progress:', progress, '%');
+                console.log('Data sent per second:', uploadRate.toFixed(2), 'bytes/s');
+
+                // Update last progress and time
+                lastProgress = progress;
+                lastTime = currentTime;
+            });
+
+            request.timeOut(10000, function () {
+                console.log('Upload timed out');
+            });
+
+            // Send the FormData as the request body
+            options.body = formData;
+            request.send(options);
+        }
+    });
+});
+```
+
+Please note that this approach provides an estimate of the upload rate in bytes per second. Keep in mind that network conditions, server responsiveness, and other factors can affect the accuracy of this calculation.
